@@ -573,24 +573,6 @@
             const difficultySelect = document.getElementById('difficultySelect');
             const timeSelect = document.getElementById('timeSelect');
 
-            // Add new DOM elements for enhanced features
-            const wordCountSelect = document.createElement('select');
-            wordCountSelect.id = 'wordCountSelect';
-            wordCountSelect.innerHTML = `
-                <option value="15">15 words</option>
-                <option value="30">30 words</option>
-                <option value="60" selected>60 words</option>
-                <option value="120">120 words</option>
-            `;
-
-            const modeSelect = document.createElement('select');
-            modeSelect.id = 'modeSelect';
-            modeSelect.innerHTML = `
-                <option value="time">Time</option>
-                <option value="words">Words</option>
-                <option value="custom">Custom</option>
-            `;
-
             // Enhanced variables
             let currentIndex = 0;
             let errors = 0;
@@ -604,99 +586,106 @@
             let streakCount = 0;
             let maxStreak = 0;
 
-            // Enhanced code snippets with all languages
+            // Code snippets for different languages and difficulties
             const codeSnippets = {
                 javascript: {
                     easy: [
                         'function greet(name) {\n  return "Hello, " + name + "!";\n}',
-                        'const sum = (a, b) => a + b;',
-                        'let count = 0;\ncount++;'
+                        'const sum = (a, b) => {\n  return a + b;\n}',
+                        'let counter = 0;\nfunction increment() {\n  counter++;\n  return counter;\n}'
                     ],
                     medium: [
                         'function fibonacci(n) {\n  if (n <= 1) return n;\n  return fibonacci(n - 1) + fibonacci(n - 2);\n}',
-                        'const numbers = [1, 2, 3, 4, 5];\nconst doubled = numbers.map(n => n * 2);',
-                        'class Counter {\n  constructor() {\n    this.count = 0;\n  }\n  increment() {\n    this.count++;\n  }\n}'
+                        'const filterEven = (numbers) => {\n  return numbers.filter(num => num % 2 === 0);\n}',
+                        'function createCounter() {\n  let count = 0;\n  return {\n    increment() { count++; },\n    decrement() { count--; },\n    getCount() { return count; }\n  };\n}'
                     ],
                     hard: [
-                        'async function fetchData() {\n  try {\n    const response = await fetch(url);\n    const data = await response.json();\n    return data;\n  } catch (error) {\n    console.error(error);\n  }\n}',
-                        'const memoize = (fn) => {\n  const cache = new Map();\n  return (...args) => {\n    const key = JSON.stringify(args);\n    if (cache.has(key)) return cache.get(key);\n    const result = fn.apply(this, args);\n    cache.set(key, result);\n    return result;\n  };\n};'
+                        'async function fetchData(url) {\n  try {\n    const response = await fetch(url);\n    if (!response.ok) {\n      throw new Error("Network response was not ok");\n    }\n    return await response.json();\n  } catch (error) {\n    console.error("Fetch error:", error);\n    return null;\n  }\n}'
                     ]
                 },
                 python: {
                     easy: [
                         'def greet(name):\n    return f"Hello, {name}!"',
-                        'numbers = [1, 2, 3, 4, 5]\nsum(numbers)',
-                        'def is_even(n):\n    return n % 2 == 0'
+                        'def calculate_sum(a, b):\n    return a + b',
+                        'def is_even(number):\n    return number % 2 == 0'
                     ],
                     medium: [
-                        'def quick_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quick_sort(left) + middle + quick_sort(right)',
-                        'class BinaryTree:\n    def __init__(self, value):\n        self.value = value\n        self.left = None\n        self.right = None',
-                        'from collections import defaultdict\n\ndef word_frequency(text):\n    words = text.lower().split()\n    return defaultdict(int, {word: words.count(word) for word in words})'
+                        'def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n - 1) + fibonacci(n - 2)',
+                        'def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = arr[j + 1], arr[j]\n    return arr',
+                        'def find_primes(n):\n    primes = []\n    for num in range(2, n + 1):\n        if all(num % i != 0 for i in range(2, int(num ** 0.5) + 1)):\n            primes.append(num)\n    return primes'
                     ],
                     hard: [
-                        'async def process_data(urls):\n    async with aiohttp.ClientSession() as session:\n        tasks = [fetch_url(session, url) for url in urls]\n        return await asyncio.gather(*tasks)',
-                        'class MetaSingleton(type):\n    _instances = {}\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]'
+                        'from typing import List, Optional\n\nclass TreeNode:\n    def __init__(self, val=0):\n        self.val = val\n        self.left = None\n        self.right = None\n\ndef level_order_traversal(root: Optional[TreeNode]) -> List[List[int]]:\n    if not root:\n        return []\n    result = []\n    queue = [root]\n    while queue:\n        level = []\n        for _ in range(len(queue)):\n            node = queue.pop(0)\n            level.append(node.val)\n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n        result.append(level)\n    return result'
                     ]
                 },
                 java: {
                     easy: [
-                        'public class Hello {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
-                        'public int sum(int a, int b) {\n    return a + b;\n}',
-                        'String message = "Hello";\nSystem.out.println(message.length());'
+                        'public class Calculator {\n    public int add(int a, int b) {\n        return a + b;\n    }\n}',
+                        'public String reverseString(String str) {\n    return new StringBuilder(str).reverse().toString();\n}',
+                        'public boolean isPalindrome(String str) {\n    str = str.toLowerCase();\n    int left = 0, right = str.length() - 1;\n    while (left < right) {\n        if (str.charAt(left) != str.charAt(right)) return false;\n        left++;\n        right--;\n    }\n    return true;\n}'
                     ],
                     medium: [
-                        'public class BubbleSort {\n    public void sort(int[] arr) {\n        for (int i = 0; i < arr.length - 1; i++)\n            for (int j = 0; j < arr.length - i - 1; j++)\n                if (arr[j] > arr[j + 1]) {\n                    int temp = arr[j];\n                    arr[j] = arr[j + 1];\n                    arr[j + 1] = temp;\n                }\n    }\n}',
-                        'public class LinkedList<T> {\n    private class Node {\n        T data;\n        Node next;\n        Node(T data) {\n            this.data = data;\n        }\n    }\n}'
+                        'public class Stack<T> {\n    private ArrayList<T> items = new ArrayList<>();\n    \n    public void push(T item) {\n        items.add(item);\n    }\n    \n    public T pop() {\n        if (isEmpty()) throw new EmptyStackException();\n        return items.remove(items.size() - 1);\n    }\n    \n    public boolean isEmpty() {\n        return items.isEmpty();\n    }\n}',
+                        'public int binarySearch(int[] arr, int target) {\n    int left = 0, right = arr.length - 1;\n    while (left <= right) {\n        int mid = left + (right - left) / 2;\n        if (arr[mid] == target) return mid;\n        if (arr[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n}'
                     ],
                     hard: [
-                        'public class ThreadSafeQueue<T> {\n    private final Queue<T> queue = new ConcurrentLinkedQueue<>();\n    private final ReentrantLock lock = new ReentrantLock();\n    \n    public void enqueue(T item) {\n        lock.lock();\n        try {\n            queue.offer(item);\n        } finally {\n            lock.unlock();\n        }\n    }\n}',
-                        'public class GenericDAO<T> implements AutoCloseable {\n    private final EntityManager em;\n    private final Class<T> clazz;\n    \n    public Optional<T> findById(Long id) {\n        return Optional.ofNullable(em.find(clazz, id));\n    }\n}'
+                        'public class Graph {\n    private Map<Integer, List<Integer>> adj = new HashMap<>();\n    \n    public void addEdge(int src, int dest) {\n        adj.computeIfAbsent(src, k -> new ArrayList<>()).add(dest);\n        adj.computeIfAbsent(dest, k -> new ArrayList<>()).add(src);\n    }\n    \n    public List<Integer> shortestPath(int start, int end) {\n        Queue<Integer> queue = new LinkedList<>();\n        Map<Integer, Integer> parent = new HashMap<>();\n        queue.offer(start);\n        parent.put(start, null);\n        \n        while (!queue.isEmpty()) {\n            int current = queue.poll();\n            if (current == end) break;\n            \n            for (int neighbor : adj.getOrDefault(current, Collections.emptyList())) {\n                if (!parent.containsKey(neighbor)) {\n                    queue.offer(neighbor);\n                    parent.put(neighbor, current);\n                }\n            }\n        }\n        \n        List<Integer> path = new ArrayList<>();\n        Integer current = end;\n        while (current != null) {\n            path.add(0, current);\n            current = parent.get(current);\n        }\n        return path;\n    }\n}'
+                    ]
+                },
+                csharp: {
+                    easy: [
+                        'public class Person {\n    public string Name { get; set; }\n    public int Age { get; set; }\n    \n    public Person(string name, int age) {\n        Name = name;\n        Age = age;\n    }\n}',
+                        'public static List<int> GetEvenNumbers(List<int> numbers) {\n    return numbers.Where(n => n % 2 == 0).ToList();\n}',
+                        'public static string FormatName(string firstName, string lastName) {\n    return $"{lastName}, {firstName}";\n}'
+                    ],
+                    medium: [
+                        'public class LinkedList<T> {\n    private class Node {\n        public T Value;\n        public Node Next;\n        \n        public Node(T value) {\n            Value = value;\n            Next = null;\n        }\n    }\n    \n    private Node head;\n    \n    public void Add(T value) {\n        if (head == null) {\n            head = new Node(value);\n            return;\n        }\n        \n        Node current = head;\n        while (current.Next != null) {\n            current = current.Next;\n        }\n        current.Next = new Node(value);\n    }\n}'
+                    ],
+                    hard: [
+                        'public class AsyncCache<TKey, TValue> {\n    private readonly ConcurrentDictionary<TKey, Task<TValue>> cache;\n    private readonly Func<TKey, Task<TValue>> valueFactory;\n    \n    public AsyncCache(Func<TKey, Task<TValue>> valueFactory) {\n        this.cache = new ConcurrentDictionary<TKey, Task<TValue>>();\n        this.valueFactory = valueFactory;\n    }\n    \n    public async Task<TValue> GetOrAddAsync(TKey key) {\n        return await cache.GetOrAdd(key, k => valueFactory(k));\n    }\n    \n    public void Remove(TKey key) {\n        cache.TryRemove(key, out _);\n    }\n}'
                     ]
                 },
                 cpp: {
                     easy: [
-                        '#include <iostream>\nint main() {\n    std::cout << "Hello, World!" << std::endl;\n    return 0;\n}',
-                        'int sum(int a, int b) {\n    return a + b;\n}',
-                        'std::string str = "Hello";\nstr.length();'
+                        '#include <vector>\n\nstd::vector<int> range(int start, int end) {\n    std::vector<int> result;\n    for (int i = start; i < end; i++) {\n        result.push_back(i);\n    }\n    return result;\n}',
+                        'template<typename T>\nT max(T a, T b) {\n    return (a > b) ? a : b;\n}',
+                        'bool isPrime(int n) {\n    if (n <= 1) return false;\n    for (int i = 2; i * i <= n; i++) {\n        if (n % i == 0) return false;\n    }\n    return true;\n}'
                     ],
                     medium: [
-                        'template<typename T>\nclass SmartPtr {\n    T* ptr;\npublic:\n    SmartPtr(T* p) : ptr(p) {}\n    ~SmartPtr() { delete ptr; }\n    T& operator*() { return *ptr; }\n};',
-                        'void quickSort(int arr[], int low, int high) {\n    if (low < high) {\n        int pi = partition(arr, low, high);\n        quickSort(arr, low, pi - 1);\n        quickSort(arr, pi + 1, high);\n    }\n}'
+                        'template<typename T>\nclass SmartPointer {\n    T* ptr;\npublic:\n    SmartPointer(T* p = nullptr) : ptr(p) {}\n    ~SmartPointer() { delete ptr; }\n    T& operator*() { return *ptr; }\n    T* operator->() { return ptr; }\n};',
+                        'void quickSort(int arr[], int left, int right) {\n    if (left >= right) return;\n    int pivot = arr[right];\n    int i = left - 1;\n    \n    for (int j = left; j < right; j++) {\n        if (arr[j] <= pivot) {\n            i++;\n            std::swap(arr[i], arr[j]);\n        }\n    }\n    std::swap(arr[i + 1], arr[right]);\n    \n    quickSort(arr, left, i);\n    quickSort(arr, i + 2, right);\n}'
                     ],
                     hard: [
-                        'template<typename T>\nclass ThreadSafeQueue {\n    std::queue<T> queue;\n    mutable std::mutex mutex;\n    std::condition_variable cond;\npublic:\n    void push(T value) {\n        std::lock_guard<std::mutex> lock(mutex);\n        queue.push(std::move(value));\n        cond.notify_one();\n    }\n};',
-                        'class Allocator {\n    struct Block {\n        size_t size;\n        bool used;\n        Block* next;\n    };\n    Block* head;\npublic:\n    void* allocate(size_t size);\n    void deallocate(void* ptr);\n};'
+                        'template<typename T>\nclass ThreadSafeQueue {\n    std::queue<T> queue;\n    mutable std::mutex mutex;\n    std::condition_variable cond;\n\npublic:\n    void push(T value) {\n        std::lock_guard<std::mutex> lock(mutex);\n        queue.push(std::move(value));\n        cond.notify_one();\n    }\n    \n    T pop() {\n        std::unique_lock<std::mutex> lock(mutex);\n        cond.wait(lock, [this] { return !queue.empty(); });\n        T value = std::move(queue.front());\n        queue.pop();\n        return value;\n    }\n};'
                     ]
-                }
-            };
-
-            // Add new features and settings
-            const settings = {
-                caretStyle: 'block',      // block, underline, outline
-                soundEnabled: true,       // typing sound feedback
-                smoothCaret: true,        // smooth caret animation
-                confidenceMode: false,    // hide errors until end
-                blindMode: false,        // hide the text while typing
-                quickRestart: true,      // tab to restart
-                showLiveWPM: true,       // show WPM while typing
-                countdownLength: 3,      // seconds before start
-                minWPM: 0,              // minimum WPM to save result
-                minAccuracy: 0,         // minimum accuracy to save result
-                theme: 'dark'           // dark, light, custom
-            };
-
-            // Add new statistics tracking
-            const statistics = {
-                historicalResults: [],
-                personalBests: {
-                    wpm: 0,
-                    accuracy: 0,
-                    streak: 0
                 },
-                averages: {
-                    wpm: 0,
-                    accuracy: 0,
-                    consistency: 0
+                html: {
+                    easy: [
+                        '<nav class="navbar">\n    <ul class="nav-list">\n        <li><a href="#home">Home</a></li>\n        <li><a href="#about">About</a></li>\n        <li><a href="#contact">Contact</a></li>\n    </ul>\n</nav>',
+                        '<form class="contact-form">\n    <div class="form-group">\n        <label for="name">Name:</label>\n        <input type="text" id="name" required>\n    </div>\n    <button type="submit">Send</button>\n</form>',
+                        '<div class="card">\n    <img src="image.jpg" alt="Card image">\n    <div class="card-content">\n        <h3>Card Title</h3>\n        <p>Card description goes here.</p>\n    </div>\n</div>'
+                    ],
+                    medium: [
+                        '<header class="site-header">\n    <nav class="main-nav">\n        <div class="logo">\n            <img src="logo.png" alt="Site Logo">\n        </div>\n        <ul class="nav-links">\n            <li><a href="#home">Home</a></li>\n            <li><a href="#products">Products</a></li>\n            <li><a href="#about">About</a></li>\n            <li><a href="#contact">Contact</a></li>\n        </ul>\n        <button class="mobile-menu">\n            <span></span>\n            <span></span>\n            <span></span>\n        </button>\n    </nav>\n</header>'
+                    ],
+                    hard: [
+                        '<form class="checkout-form">\n    <div class="form-section">\n        <h2>Shipping Information</h2>\n        <div class="form-group">\n            <label for="fullName">Full Name</label>\n            <input type="text" id="fullName" required>\n        </div>\n        <div class="form-group">\n            <label for="address">Address</label>\n            <input type="text" id="address" required>\n        </div>\n        <div class="form-row">\n            <div class="form-group">\n                <label for="city">City</label>\n                <input type="text" id="city" required>\n            </div>\n            <div class="form-group">\n                <label for="zipCode">ZIP Code</label>\n                <input type="text" id="zipCode" required>\n            </div>\n        </div>\n    </div>\n    <div class="form-section">\n        <h2>Payment Details</h2>\n        <div class="form-group">\n            <label for="cardNumber">Card Number</label>\n            <input type="text" id="cardNumber" required>\n        </div>\n        <div class="form-row">\n            <div class="form-group">\n                <label for="expiry">Expiry Date</label>\n                <input type="text" id="expiry" placeholder="MM/YY" required>\n            </div>\n            <div class="form-group">\n                <label for="cvv">CVV</label>\n                <input type="text" id="cvv" required>\n            </div>\n        </div>\n    </div>\n    <button type="submit" class="submit-btn">Complete Purchase</button>\n</form>'
+                    ]
+                },
+                css: {
+                    easy: [
+                        '.button {\n    padding: 10px 20px;\n    background-color: #007bff;\n    color: white;\n    border: none;\n    border-radius: 4px;\n    cursor: pointer;\n}\n\n.button:hover {\n    background-color: #0056b3;\n}',
+                        '.card {\n    width: 300px;\n    padding: 20px;\n    border: 1px solid #ddd;\n    border-radius: 8px;\n    box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n}',
+                        '.grid {\n    display: grid;\n    grid-template-columns: repeat(3, 1fr);\n    gap: 20px;\n    padding: 20px;\n}'
+                    ],
+                    medium: [
+                        '@media screen and (max-width: 768px) {\n    .container {\n        flex-direction: column;\n    }\n    \n    .sidebar {\n        width: 100%;\n        margin-bottom: 20px;\n    }\n    \n    .main-content {\n        width: 100%;\n    }\n}',
+                        '.dropdown {\n    position: relative;\n    display: inline-block;\n}\n\n.dropdown-content {\n    display: none;\n    position: absolute;\n    background-color: white;\n    min-width: 160px;\n    box-shadow: 0 2px 5px rgba(0,0,0,0.2);\n    z-index: 1;\n}\n\n.dropdown:hover .dropdown-content {\n    display: block;\n}'
+                    ],
+                    hard: [
+                        '@keyframes slideIn {\n    0% {\n        transform: translateX(-100%);\n        opacity: 0;\n    }\n    100% {\n        transform: translateX(0);\n        opacity: 1;\n    }\n}\n\n.animate-slide {\n    animation: slideIn 0.5s ease-out;\n}\n\n@media (prefers-reduced-motion: reduce) {\n    .animate-slide {\n        animation: none;\n    }\n}',
+                        '.theme-switch {\n    --switch-width: 60px;\n    --switch-height: 30px;\n    position: relative;\n    display: inline-block;\n    width: var(--switch-width);\n    height: var(--switch-height);\n}\n\n.theme-switch input {\n    opacity: 0;\n    width: 0;\n    height: 0;\n}\n\n.slider {\n    position: absolute;\n    cursor: pointer;\n    top: 0;\n    left: 0;\n    right: 0;\n    bottom: 0;\n    background-color: #ccc;\n    transition: .4s;\n    border-radius: var(--switch-height);\n}\n\n.slider:before {\n    position: absolute;\n    content: "";\n    height: calc(var(--switch-height) - 8px);\n    width: calc(var(--switch-height) - 8px);\n    left: 4px;\n    bottom: 4px;\n    background-color: white;\n    transition: .4s;\n    border-radius: 50%;\n}\n\ninput:checked + .slider {\n    background-color: #2196F3;\n}\n\ninput:checked + .slider:before {\n    transform: translateX(calc(var(--switch-width) - var(--switch-height)));\n}'
+                    ]
                 }
             };
 
@@ -938,7 +927,7 @@
                 typingTitle.textContent = isPaused ? 'Paused' : 'Resumed';
                 if (isPaused) {
                     typingInput.blur();
-                } else {
+                    } else {
                     typingInput.focus();
                 }
             }
@@ -1000,62 +989,9 @@
                 timer.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
             }
 
-            // Initialize everything
+            // Initialize the app
             initializeTest();
-            initializeEnhancedFeatures();
         });
-
-        // Add new functions for enhanced features
-        function initializeEnhancedFeatures() {
-            // Add sound effects
-            const sounds = {
-                click: new Audio('path/to/click.mp3'),
-                error: new Audio('path/to/error.mp3'),
-                success: new Audio('path/to/success.mp3')
-            };
-
-            // Add caret styles
-            const caretStyles = {
-                block: 'background-color: var(--accent);',
-                underline: 'border-bottom: 2px solid var(--accent);',
-                outline: 'border: 1px solid var(--accent);'
-            };
-
-            // Add result graphs
-            function drawResultGraph(ctx, data) {
-                // Implementation for drawing WPM/accuracy graphs
-            }
-
-            // Add replay functionality
-            function replayTest(testData) {
-                // Implementation for replaying a previous test
-            }
-        }
-
-        // Add keyboard shortcut handler
-        function handleShortcuts(e) {
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                if (settings.quickRestart) resetTest();
-            }
-            // Add more shortcuts
-        }
-
-        // Add result saving and loading
-        function saveResult(result) {
-            statistics.historicalResults.push(result);
-            updatePersonalBests(result);
-            updateAverages();
-            localStorage.setItem('typeTestStats', JSON.stringify(statistics));
-        }
-
-        // Add consistency calculation
-        function calculateConsistency(wpmArray) {
-            if (wpmArray.length < 2) return 100;
-            const average = wpmArray.reduce((a, b) => a + b) / wpmArray.length;
-            const variance = wpmArray.reduce((a, b) => a + Math.pow(b - average, 2), 0) / wpmArray.length;
-            return Math.max(0, 100 - Math.sqrt(variance));
-        }
     </script>
 </body>
 
