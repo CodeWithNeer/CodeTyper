@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,10 +9,10 @@
     <style>
         /* Import Hubot Sans for common UI elements */
         @import url('https://fonts.googleapis.com/css2?family=Hubot+Sans:wght@300;400;500;600;700&display=swap');
-        
+
         /* JetBrains Mono is already referenced in the original for code */
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
-        
+
         :root {
             --primary: #1e1e2e;
             --secondary: #181825;
@@ -28,13 +29,13 @@
             --border-radius: 8px;
             --transition: all 0.2s ease;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             background-color: var(--primary);
             color: var(--text);
@@ -44,22 +45,23 @@
             flex-direction: column;
             min-height: 100vh;
             line-height: 1.5;
+            overflow-x: hidden;
         }
-        
+
         .container {
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
-        
+
         header {
             text-align: center;
             margin-bottom: 30px;
             padding-top: 70px;
             position: relative;
         }
-        
+
         .logo {
             font-size: 3rem;
             font-weight: 700;
@@ -67,7 +69,7 @@
             margin-bottom: 15px;
             letter-spacing: -0.02em;
         }
-        
+
         .subtitle {
             color: var(--text-dim);
             font-size: 1.1rem;
@@ -75,7 +77,7 @@
             max-width: 500px;
             margin: 0 auto;
         }
-        
+
         .settings-panel {
             background-color: var(--secondary);
             border-radius: var(--border-radius);
@@ -83,26 +85,27 @@
             margin-bottom: 30px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .settings {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 30px;
         }
-        
+
         .setting-group {
             position: relative;
         }
-        
+
         .setting-label {
             font-size: 0.8rem;
             color: var(--text-dim);
             margin-bottom: 5px;
             display: block;
         }
-        
-        select, button {
+
+        select,
+        button {
             background-color: var(--button-bg);
             color: var(--text);
             border: none;
@@ -113,7 +116,7 @@
             cursor: pointer;
             transition: var(--transition);
         }
-        
+
         select {
             appearance: none;
             padding-right: 30px;
@@ -121,27 +124,29 @@
             background-repeat: no-repeat;
             background-position: right 10px center;
         }
-        
-        select:hover, button:hover {
+
+        select:hover,
+        button:hover {
             background-color: var(--button-hover);
         }
-        
-        select:focus, button:focus {
+
+        select:focus,
+        button:focus {
             outline: 2px solid var(--accent);
             outline-offset: 2px;
         }
-        
+
         button#startBtn {
             background-color: var(--accent);
             color: var(--secondary);
             font-weight: 600;
             padding: 5px 12px;
         }
-        
+
         button#startBtn:hover {
             background-color: var(--accent-hover);
         }
-        
+
         .typing-container {
             max-width: 1000px;
             margin: 0 auto;
@@ -151,8 +156,9 @@
             border-radius: var(--border-radius);
             position: relative;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
-        
+
         .typing-header {
             display: flex;
             justify-content: space-between;
@@ -161,19 +167,19 @@
             padding-bottom: 15px;
             border-bottom: 1px solid var(--button-bg);
         }
-        
+
         .typing-title {
             font-size: 1.2rem;
             font-weight: 500;
             color: var(--accent);
         }
-        
+
         .timer {
             font-family: var(--font-code);
             font-size: 1.2rem;
             color: var(--text);
         }
-        
+
         .typing-content {
             font-family: var(--font-code);
             font-size: 1.2rem;
@@ -181,40 +187,30 @@
             white-space: pre-wrap;
             user-select: none;
             line-height: 1.6;
+            overflow-x: auto;
         }
-        
+
         .typing-input {
             position: absolute;
             opacity: 0;
             pointer-events: none;
         }
-        
-        .line-numbers {
-            position: absolute;
-            left: 16px;
-            top: 76px;
-            color: var(--text-dim);
-            font-family: var(--font-code);
-            font-size: 1.2rem;
-            text-align: right;
-            width: 30px;
-            user-select: none;
-        }
-        
+
         .code-content {
             margin-left: 40px;
+            overflow-x: auto;
         }
-        
+
         .code-char {
             position: relative;
             margin: 0;
             padding: 0;
         }
-        
+
         .active-char {
             position: relative;
         }
-        
+
         .active-char::after {
             content: '';
             position: absolute;
@@ -225,42 +221,49 @@
             background-color: var(--accent);
             animation: blink 1s infinite;
         }
-        
+
         .correct-char {
             color: var(--correct);
         }
-        
+
         .error-char {
             color: var(--error);
             text-decoration: underline;
         }
-        
+
         #result {
             margin-top: 40px;
             text-align: center;
             display: none;
             animation: fadeIn 0.5s;
         }
-        
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        
+
         #result h2 {
             margin-bottom: 15px;
             color: var(--accent);
             font-size: 1.8rem;
             font-weight: 600;
         }
-        
+
         .stats {
             display: flex;
             justify-content: center;
             gap: 40px;
             margin-top: 25px;
         }
-        
+
         .stat-item {
             display: flex;
             flex-direction: column;
@@ -270,20 +273,20 @@
             border-radius: var(--border-radius);
             min-width: 150px;
         }
-        
+
         .stat-value {
             font-size: 2.2rem;
             font-weight: bold;
             color: var(--accent);
             font-family: var(--font-code);
         }
-        
+
         .stat-label {
             font-size: 0.9rem;
             color: var(--text-dim);
             margin-top: 5px;
         }
-        
+
         footer {
             margin-top: auto;
             text-align: center;
@@ -291,7 +294,7 @@
             color: var(--text-dim);
             font-size: 0.9rem;
         }
-        
+
         .restart-btn {
             background-color: var(--accent);
             color: var(--secondary);
@@ -300,11 +303,11 @@
             padding: 12px 30px;
             font-size: 1rem;
         }
-        
+
         .restart-btn:hover {
             background-color: var(--accent-hover);
         }
-        
+
         .theme-btn {
             position: absolute;
             top: 20px;
@@ -323,29 +326,51 @@
             background-color: var(--button-bg);
             transition: var(--transition);
         }
-        
+
         .theme-btn:hover {
             background-color: var(--button-hover);
         }
 
         @keyframes blink {
-            0%, 100% {
+            0%,
+            100% {
                 opacity: 1;
             }
+
             50% {
                 opacity: 0;
             }
         }
-        
+
         /* Syntax highlighting */
-        .keyword { color: #f38ba8; }
-        .function { color: #94e2d5; }
-        .string { color: #f9e2af; }
-        .number { color: #fab387; }
-        .comment { color: #a6adc8; }
-        .operator { color: #f38ba8; }
-        .brackets { color: #cdd6f4; }
-        
+        .keyword {
+            color: #f38ba8;
+        }
+
+        .function {
+            color: #94e2d5;
+        }
+
+        .string {
+            color: #f9e2af;
+        }
+
+        .number {
+            color: #fab387;
+        }
+
+        .comment {
+            color: #a6adc8;
+        }
+
+        .operator {
+            color: #f38ba8;
+        }
+
+        .brackets {
+            color: #cdd6f4;
+        }
+
         /* Light theme */
         .light-theme {
             --primary: #f8f8fa;
@@ -359,71 +384,104 @@
             --button-bg: #dfdfe3;
             --button-hover: #d1d1d6;
         }
-        
-        .light-theme .keyword { color: #7c3aed; }
-        .light-theme .function { color: #0891b2; }
-        .light-theme .string { color: #ca8a04; }
-        .light-theme .number { color: #c2410c; }
-        .light-theme .comment { color: #68686e; }
-        .light-theme .operator { color: #7c3aed; }
-        .light-theme .brackets { color: #2c2e31; }
-        
+
+        .light-theme .keyword {
+            color: #7c3aed;
+        }
+
+        .light-theme .function {
+            color: #0891b2;
+        }
+
+        .light-theme .string {
+            color: #ca8a04;
+        }
+
+        .light-theme .number {
+            color: #c2410c;
+        }
+
+        .light-theme .comment {
+            color: #68686e;
+        }
+
+        .light-theme .operator {
+            color: #7c3aed;
+        }
+
+        .light-theme .brackets {
+            color: #2c2e31;
+        }
+
         /* Responsive styles */
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
             }
-            
+
             header {
                 padding-top: 50px;
             }
-            
+
             .logo {
                 font-size: 2.5rem;
             }
-            
+
             .settings {
                 flex-direction: column;
                 align-items: stretch;
             }
-            
+
             .typing-container {
                 padding: 20px;
             }
-            
+
             .typing-content {
                 font-size: 1rem;
             }
-            
-            .line-numbers {
-                font-size: 1rem;
-                top: 66px;
-            }
-            
+
             .stats {
                 flex-direction: column;
                 gap: 15px;
                 align-items: center;
             }
-            
+
             .stat-item {
                 width: 100%;
                 max-width: 250px;
             }
         }
+
+        .streak-effect {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2em;
+            color: var(--accent);
+            animation: streak-animation 1s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes streak-animation {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <button class="theme-btn" id="themeToggle">
             <i class="fas fa-moon"></i>
         </button>
-        
+
         <header>
             <div class="logo">CodeTyper</div>
             <div class="subtitle">Improve your coding speed and accuracy with language-specific typing tests.</div>
         </header>
-        
+
         <div class="settings-panel">
             <div class="settings">
                 <div class="setting-group">
@@ -438,7 +496,7 @@
                         <option value="css">CSS</option>
                     </select>
                 </div>
-                
+
                 <div class="setting-group">
                     <label class="setting-label">Difficulty</label>
                     <select id="difficultySelect">
@@ -447,7 +505,7 @@
                         <option value="hard">Hard</option>
                     </select>
                 </div>
-                
+
                 <div class="setting-group">
                     <label class="setting-label">Time</label>
                     <select id="timeSelect">
@@ -457,23 +515,22 @@
                         <option value="300">5 minutes</option>
                     </select>
                 </div>
-                
+
                 <button id="startBtn">Start Test</button>
             </div>
         </div>
-        
+
         <div class="typing-container">
             <div class="typing-header">
                 <div class="typing-title">Start typing when ready...</div>
                 <div class="timer">01:00</div>
             </div>
-            <div class="line-numbers" id="lineNumbers"></div>
             <div class="code-content">
                 <div class="typing-content" id="typingContent"></div>
             </div>
             <input type="text" class="typing-input" id="typingInput" autofocus>
         </div>
-        
+
         <div id="result">
             <h2>Test Results</h2>
             <div class="stats">
@@ -493,463 +550,513 @@
             <button class="restart-btn" id="restartBtn">Try Again</button>
         </div>
     </div>
-    
+
     <footer>
         <p>CodeTyper - Improve your programming typing skills</p>
     </footer>
-    
+
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-    // DOM elements
-    const typingContent = document.getElementById('typingContent');
-    const typingInput = document.getElementById('typingInput');
-    const lineNumbers = document.getElementById('lineNumbers');
-    const startBtn = document.getElementById('startBtn');
-    const restartBtn = document.getElementById('restartBtn');
-    const timer = document.querySelector('.timer');
-    const result = document.getElementById('result');
-    const wpmValue = document.getElementById('wpmValue');
-    const accuracyValue = document.getElementById('accuracyValue');
-    const charactersValue = document.getElementById('charactersValue');
-    const typingTitle = document.querySelector('.typing-title');
-    const themeToggle = document.getElementById('themeToggle');
-    const languageSelect = document.getElementById('languageSelect');
-    const difficultySelect = document.getElementById('difficultySelect');
-    const timeSelect = document.getElementById('timeSelect');
+        document.addEventListener('DOMContentLoaded', function () {
+            // DOM elements
+            const typingContent = document.getElementById('typingContent');
+            const typingInput = document.getElementById('typingInput');
+            const startBtn = document.getElementById('startBtn');
+            const restartBtn = document.getElementById('restartBtn');
+            const timer = document.querySelector('.timer');
+            const result = document.getElementById('result');
+            const wpmValue = document.getElementById('wpmValue');
+            const accuracyValue = document.getElementById('accuracyValue');
+            const charactersValue = document.getElementById('charactersValue');
+            const typingTitle = document.querySelector('.typing-title');
+            const themeToggle = document.getElementById('themeToggle');
+            const languageSelect = document.getElementById('languageSelect');
+            const difficultySelect = document.getElementById('difficultySelect');
+            const timeSelect = document.getElementById('timeSelect');
 
-    // Variables
-    let currentIndex = 0;
-    let errors = 0;
-    let timerInterval;
-    let timeLeft;
-    let started = false;
-    let totalTyped = 0;
-    let correctTyped = 0;
-    let codeSnippets = {};
+            // Add new DOM elements for enhanced features
+            const wordCountSelect = document.createElement('select');
+            wordCountSelect.id = 'wordCountSelect';
+            wordCountSelect.innerHTML = `
+                <option value="15">15 words</option>
+                <option value="30">30 words</option>
+                <option value="60" selected>60 words</option>
+                <option value="120">120 words</option>
+            `;
 
-    // Initialize code snippets for different languages and difficulties
-    initializeCodeSnippets();
+            const modeSelect = document.createElement('select');
+            modeSelect.id = 'modeSelect';
+            modeSelect.innerHTML = `
+                <option value="time">Time</option>
+                <option value="words">Words</option>
+                <option value="custom">Custom</option>
+            `;
 
-    // Set up event listeners
-    startBtn.addEventListener('click', startTest);
-    restartBtn.addEventListener('click', resetTest);
-    typingInput.addEventListener('input', handleTyping);
-    themeToggle.addEventListener('click', toggleTheme);
+            // Enhanced variables
+            let currentIndex = 0;
+            let errors = 0;
+            let timerInterval;
+            let timeLeft;
+            let started = false;
+            let totalTyped = 0;
+            let correctTyped = 0;
+            let isPaused = false;
+            let lastActiveTime = Date.now();
+            let streakCount = 0;
+            let maxStreak = 0;
 
-    // Initialize the typing test
-    function initializeTest() {
-        const language = languageSelect.value;
-        const difficulty = difficultySelect.value;
-        const selectedCode = getRandomSnippet(language, difficulty);
-        
-        displayCode(selectedCode);
-        updateTimer(parseInt(timeSelect.value));
-    }
+            // Enhanced code snippets with all languages
+            const codeSnippets = {
+                javascript: {
+                    easy: [
+                        'function greet(name) {\n  return "Hello, " + name + "!";\n}',
+                        'const sum = (a, b) => a + b;',
+                        'let count = 0;\ncount++;'
+                    ],
+                    medium: [
+                        'function fibonacci(n) {\n  if (n <= 1) return n;\n  return fibonacci(n - 1) + fibonacci(n - 2);\n}',
+                        'const numbers = [1, 2, 3, 4, 5];\nconst doubled = numbers.map(n => n * 2);',
+                        'class Counter {\n  constructor() {\n    this.count = 0;\n  }\n  increment() {\n    this.count++;\n  }\n}'
+                    ],
+                    hard: [
+                        'async function fetchData() {\n  try {\n    const response = await fetch(url);\n    const data = await response.json();\n    return data;\n  } catch (error) {\n    console.error(error);\n  }\n}',
+                        'const memoize = (fn) => {\n  const cache = new Map();\n  return (...args) => {\n    const key = JSON.stringify(args);\n    if (cache.has(key)) return cache.get(key);\n    const result = fn.apply(this, args);\n    cache.set(key, result);\n    return result;\n  };\n};'
+                    ]
+                },
+                python: {
+                    easy: [
+                        'def greet(name):\n    return f"Hello, {name}!"',
+                        'numbers = [1, 2, 3, 4, 5]\nsum(numbers)',
+                        'def is_even(n):\n    return n % 2 == 0'
+                    ],
+                    medium: [
+                        'def quick_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quick_sort(left) + middle + quick_sort(right)',
+                        'class BinaryTree:\n    def __init__(self, value):\n        self.value = value\n        self.left = None\n        self.right = None',
+                        'from collections import defaultdict\n\ndef word_frequency(text):\n    words = text.lower().split()\n    return defaultdict(int, {word: words.count(word) for word in words})'
+                    ],
+                    hard: [
+                        'async def process_data(urls):\n    async with aiohttp.ClientSession() as session:\n        tasks = [fetch_url(session, url) for url in urls]\n        return await asyncio.gather(*tasks)',
+                        'class MetaSingleton(type):\n    _instances = {}\n    def __call__(cls, *args, **kwargs):\n        if cls not in cls._instances:\n            cls._instances[cls] = super().__call__(*args, **kwargs)\n        return cls._instances[cls]'
+                    ]
+                },
+                java: {
+                    easy: [
+                        'public class Hello {\n    public static void main(String[] args) {\n        System.out.println("Hello, World!");\n    }\n}',
+                        'public int sum(int a, int b) {\n    return a + b;\n}',
+                        'String message = "Hello";\nSystem.out.println(message.length());'
+                    ],
+                    medium: [
+                        'public class BubbleSort {\n    public void sort(int[] arr) {\n        for (int i = 0; i < arr.length - 1; i++)\n            for (int j = 0; j < arr.length - i - 1; j++)\n                if (arr[j] > arr[j + 1]) {\n                    int temp = arr[j];\n                    arr[j] = arr[j + 1];\n                    arr[j + 1] = temp;\n                }\n    }\n}',
+                        'public class LinkedList<T> {\n    private class Node {\n        T data;\n        Node next;\n        Node(T data) {\n            this.data = data;\n        }\n    }\n}'
+                    ],
+                    hard: [
+                        'public class ThreadSafeQueue<T> {\n    private final Queue<T> queue = new ConcurrentLinkedQueue<>();\n    private final ReentrantLock lock = new ReentrantLock();\n    \n    public void enqueue(T item) {\n        lock.lock();\n        try {\n            queue.offer(item);\n        } finally {\n            lock.unlock();\n        }\n    }\n}',
+                        'public class GenericDAO<T> implements AutoCloseable {\n    private final EntityManager em;\n    private final Class<T> clazz;\n    \n    public Optional<T> findById(Long id) {\n        return Optional.ofNullable(em.find(clazz, id));\n    }\n}'
+                    ]
+                },
+                cpp: {
+                    easy: [
+                        '#include <iostream>\nint main() {\n    std::cout << "Hello, World!" << std::endl;\n    return 0;\n}',
+                        'int sum(int a, int b) {\n    return a + b;\n}',
+                        'std::string str = "Hello";\nstr.length();'
+                    ],
+                    medium: [
+                        'template<typename T>\nclass SmartPtr {\n    T* ptr;\npublic:\n    SmartPtr(T* p) : ptr(p) {}\n    ~SmartPtr() { delete ptr; }\n    T& operator*() { return *ptr; }\n};',
+                        'void quickSort(int arr[], int low, int high) {\n    if (low < high) {\n        int pi = partition(arr, low, high);\n        quickSort(arr, low, pi - 1);\n        quickSort(arr, pi + 1, high);\n    }\n}'
+                    ],
+                    hard: [
+                        'template<typename T>\nclass ThreadSafeQueue {\n    std::queue<T> queue;\n    mutable std::mutex mutex;\n    std::condition_variable cond;\npublic:\n    void push(T value) {\n        std::lock_guard<std::mutex> lock(mutex);\n        queue.push(std::move(value));\n        cond.notify_one();\n    }\n};',
+                        'class Allocator {\n    struct Block {\n        size_t size;\n        bool used;\n        Block* next;\n    };\n    Block* head;\npublic:\n    void* allocate(size_t size);\n    void deallocate(void* ptr);\n};'
+                    ]
+                }
+            };
 
-    // Start the typing test
-    function startTest() {
-        if (started) return;
-        
-        // Reset everything
-        resetTest();
-        
-        // Update UI
-        typingTitle.textContent = 'Go!';
-        startBtn.disabled = true;
-        timeLeft = parseInt(timeSelect.value);
-        
-        // Add active class to first character
-        const firstChar = typingContent.querySelector('.code-char');
-        if (firstChar) firstChar.classList.add('active-char');
-        
-        // Focus the input
-        typingInput.focus();
-        
-        // Start the timer
-        started = true;
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            updateTimer(timeLeft);
-            
-            if (timeLeft <= 0) {
-                endTest();
+            // Add new features and settings
+            const settings = {
+                caretStyle: 'block',      // block, underline, outline
+                soundEnabled: true,       // typing sound feedback
+                smoothCaret: true,        // smooth caret animation
+                confidenceMode: false,    // hide errors until end
+                blindMode: false,        // hide the text while typing
+                quickRestart: true,      // tab to restart
+                showLiveWPM: true,       // show WPM while typing
+                countdownLength: 3,      // seconds before start
+                minWPM: 0,              // minimum WPM to save result
+                minAccuracy: 0,         // minimum accuracy to save result
+                theme: 'dark'           // dark, light, custom
+            };
+
+            // Add new statistics tracking
+            const statistics = {
+                historicalResults: [],
+                personalBests: {
+                    wpm: 0,
+                    accuracy: 0,
+                    streak: 0
+                },
+                averages: {
+                    wpm: 0,
+                    accuracy: 0,
+                    consistency: 0
+                }
+            };
+
+            // Set up event listeners
+            startBtn.addEventListener('click', startTest);
+            restartBtn.addEventListener('click', resetTest);
+            typingInput.addEventListener('input', handleTyping);
+            themeToggle.addEventListener('click', toggleTheme);
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + Enter to start/restart
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    e.preventDefault();
+                    if (!started) startTest();
+                    else resetTest();
+                }
+                // Escape to pause
+                if (e.key === 'Escape' && started) {
+                    e.preventDefault();
+                    togglePause();
+                }
+            });
+
+            // Initialize the typing test
+            function initializeTest() {
+                const language = languageSelect.value;
+                const difficulty = difficultySelect.value;
+                const selectedCode = getRandomSnippet(language, difficulty);
+                displayCode(selectedCode);
+                updateTimer(parseInt(timeSelect.value));
             }
-        }, 1000);
-    }
 
-    // Handle typing input
-    function handleTyping(e) {
-        if (!started) {
-            startTest();
-            return;
-        }
-        
-        const inputValue = e.data;
-        
-        // Get all characters
-        const codeChars = typingContent.querySelectorAll('.code-char');
-        
-        if (currentIndex < codeChars.length) {
-            // Get current character
-            const currentChar = codeChars[currentIndex];
-            const expectedChar = currentChar.textContent;
-            
-            // Check if typed character matches expected character
-            totalTyped++;
-            
-            if (inputValue === expectedChar) {
-                currentChar.classList.remove('active-char');
-                currentChar.classList.add('correct-char');
-                correctTyped++;
-            } else {
-                currentChar.classList.remove('active-char');
-                currentChar.classList.add('error-char');
-                errors++;
+            // Get a random snippet from the code snippets
+            function getRandomSnippet(language, difficulty) {
+                const snippets = codeSnippets[language]?.[difficulty] || codeSnippets.javascript.easy;
+                const randomIndex = Math.floor(Math.random() * snippets.length);
+                return snippets[randomIndex];
             }
-            
-            // Move to next character
-            currentIndex++;
-            
-            // Add active class to next character
-            if (currentIndex < codeChars.length) {
-                codeChars[currentIndex].classList.add('active-char');
-            } else {
-                // Reached the end of the snippet
-                endTest();
-                return;
+
+            // Display code with character spans
+            function displayCode(code) {
+                typingContent.innerHTML = '';
+                for (const char of code) {
+                    const span = document.createElement('span');
+                    span.classList.add('code-char');
+                    if (char === ' ') {
+                        span.innerHTML = '&nbsp;';
+                    } else if (char === '\n') {
+                        span.innerHTML = '<br>';
+                    } else {
+                        span.textContent = char;
+                    }
+                    typingContent.appendChild(span);
+                }
             }
-        }
-        
-        // Clear input field
-        typingInput.value = '';
-    }
 
-    // End the typing test
-    function endTest() {
-        clearInterval(timerInterval);
-        started = false;
-        
-        // Calculate results
-        const timeInMinutes = parseInt(timeSelect.value) / 60;
-        const wpm = Math.round(correctTyped / 5 / timeInMinutes); // 5 characters = 1 word
-        const accuracy = totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0;
-        
-        // Display results
-        wpmValue.textContent = wpm;
-        accuracyValue.textContent = accuracy + '%';
-        charactersValue.textContent = correctTyped;
-        
-        // Show results
-        result.style.display = 'block';
-        typingTitle.textContent = 'Test completed!';
-        startBtn.disabled = false;
-    }
+            // Enhanced start test function
+            function startTest() {
+                if (started) return;
 
-    // Reset the typing test
-    function resetTest() {
-        clearInterval(timerInterval);
-        currentIndex = 0;
-        errors = 0;
-        started = false;
-        totalTyped = 0;
-        correctTyped = 0;
-        
-        // Reset UI
-        result.style.display = 'none';
-        typingTitle.textContent = 'Start typing when ready...';
-        startBtn.disabled = false;
-        
-        // Reset timer
-        updateTimer(parseInt(timeSelect.value));
-        
-        // Refetch code snippet
-        initializeTest();
-    }
+                resetTest();
+                typingTitle.textContent = '3';
+                startBtn.disabled = true;
 
-    // Update timer display
-    function updateTimer(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-        timer.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-    }
+                // Countdown animation
+                let countdown = 3;
+                const countdownInterval = setInterval(() => {
+                    countdown--;
+                    if (countdown > 0) {
+                        typingTitle.textContent = countdown.toString();
+                    } else {
+                        clearInterval(countdownInterval);
+                typingTitle.textContent = 'Go!';
+                        startTypingTest();
+                    }
+                }, 1000);
+            }
 
-    // Display code with syntax highlighting
-    function displayCode(code) {
-        // Generate line numbers
-        const lines = code.split('\n');
-        lineNumbers.innerHTML = '';
-        
-        for (let i = 1; i <= lines.length; i++) {
-            const lineNumber = document.createElement('div');
-            lineNumber.textContent = i;
-            lineNumbers.appendChild(lineNumber);
-        }
-        
-        // Process code with syntax highlighting
-        typingContent.innerHTML = '';
-        
-        // Add each character as a span
-        [...code].forEach(char => {
-            const charSpan = document.createElement('span');
-            charSpan.classList.add('code-char');
-            charSpan.textContent = char;
-            typingContent.appendChild(charSpan);
+            // Separate function to start the actual test
+            function startTypingTest() {
+                timeLeft = parseInt(timeSelect.value);
+                const firstChar = typingContent.querySelector('.code-char');
+                if (firstChar) firstChar.classList.add('active-char');
+
+                typingInput.focus();
+                started = true;
+                lastActiveTime = Date.now();
+
+                timerInterval = setInterval(() => {
+                    if (!isPaused) {
+                    timeLeft--;
+                    updateTimer(timeLeft);
+
+                        // Check for inactivity (15 seconds)
+                        if (Date.now() - lastActiveTime > 15000) {
+                            endTest('Inactivity detected');
+                        }
+
+                    if (timeLeft <= 0) {
+                            endTest('Time\'s up!');
+                        }
+                    }
+                }, 1000);
+            }
+
+            // Enhanced typing handler with improved accuracy
+            function handleTyping(e) {
+                if (!started || isPaused) return;
+                if (!started) {
+                    startTest();
+                    return;
+                }
+
+                lastActiveTime = Date.now();
+                const inputValue = e.data;
+                const codeChars = typingContent.querySelectorAll('.code-char');
+
+                if (currentIndex < codeChars.length) {
+                    const currentChar = codeChars[currentIndex];
+                    const expectedChar = currentChar.textContent || ' ';
+
+                    totalTyped++;
+
+                    if (inputValue === expectedChar) {
+                        currentChar.classList.remove('active-char');
+                        currentChar.classList.add('correct-char');
+                        correctTyped++;
+                        streakCount++;
+                        maxStreak = Math.max(maxStreak, streakCount);
+                        
+                        // Visual feedback for streaks
+                        if (streakCount > 10) {
+                            showStreakEffect(streakCount);
+                        }
+                    } else {
+                        currentChar.classList.remove('active-char');
+                        currentChar.classList.add('error-char');
+                        errors++;
+                        streakCount = 0;
+                        
+                        // Vibration feedback for errors if supported
+                        if (navigator.vibrate) {
+                            navigator.vibrate(50);
+                        }
+                    }
+
+                    currentIndex++;
+
+                    // Scroll into view if needed
+                    if (currentIndex < codeChars.length) {
+                        codeChars[currentIndex].classList.add('active-char');
+                        ensureCharacterVisible(codeChars[currentIndex]);
+                    } else {
+                        endTest('Completed!');
+                        return;
+                    }
+
+                    // Update live stats
+                    updateLiveStats();
+                }
+
+                typingInput.value = '';
+            }
+
+            // New function to ensure the current character is visible
+            function ensureCharacterVisible(element) {
+                const container = document.querySelector('.code-content');
+                const elementRect = element.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+
+                if (elementRect.bottom > containerRect.bottom) {
+                    container.scrollTop += elementRect.bottom - containerRect.bottom + 20;
+                }
+            }
+
+            // New function to show streak effect
+            function showStreakEffect(streak) {
+                const effect = document.createElement('div');
+                effect.className = 'streak-effect';
+                effect.textContent = `${streak} STREAK!`;
+                document.body.appendChild(effect);
+                
+                setTimeout(() => effect.remove(), 1000);
+            }
+
+            // New function to update live statistics
+            function updateLiveStats() {
+                const timeInMinutes = (parseInt(timeSelect.value) - timeLeft) / 60;
+                if (timeInMinutes > 0) {
+                    const currentWPM = Math.round(correctTyped / 5 / timeInMinutes);
+                    const currentAccuracy = totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0;
+                    
+                    // Update live stats display
+                    typingTitle.textContent = `WPM: ${currentWPM} | Accuracy: ${currentAccuracy}%`;
+                }
+            }
+
+            // Enhanced end test function
+            function endTest(reason = 'Completed!') {
+                clearInterval(timerInterval);
+                started = false;
+                isPaused = false;
+
+                const timeInMinutes = parseInt(timeSelect.value) / 60;
+                const wpm = Math.round(correctTyped / 5 / timeInMinutes);
+                const accuracy = totalTyped > 0 ? Math.round((correctTyped / totalTyped) * 100) : 0;
+                const netWPM = Math.max(0, wpm - (errors / timeInMinutes));
+
+                // Enhanced results display
+                wpmValue.textContent = wpm;
+                accuracyValue.textContent = accuracy + '%';
+                charactersValue.textContent = `${correctTyped}/${totalTyped}`;
+
+                // Add new statistics
+                const statsContainer = document.querySelector('.stats');
+                statsContainer.innerHTML += `
+                    <div class="stat-item">
+                        <div class="stat-value">${netWPM}</div>
+                        <div class="stat-label">Net WPM</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${maxStreak}</div>
+                        <div class="stat-label">Max Streak</div>
+                    </div>
+                `;
+
+                result.style.display = 'block';
+                typingTitle.textContent = reason;
+                startBtn.disabled = false;
+
+                // Save high score
+                saveHighScore(wpm, accuracy, netWPM);
+            }
+
+            // New function to toggle pause
+            function togglePause() {
+                isPaused = !isPaused;
+                typingTitle.textContent = isPaused ? 'Paused' : 'Resumed';
+                if (isPaused) {
+                    typingInput.blur();
+                } else {
+                    typingInput.focus();
+                }
+            }
+
+            // New function to save high scores
+            function saveHighScore(wpm, accuracy, netWPM) {
+                const highScores = JSON.parse(localStorage.getItem('typeTestHighScores') || '[]');
+                const newScore = {
+                    date: new Date().toISOString(),
+                    language: languageSelect.value,
+                    difficulty: difficultySelect.value,
+                    wpm,
+                    accuracy,
+                    netWPM
+                };
+                
+                highScores.push(newScore);
+                highScores.sort((a, b) => b.netWPM - a.netWPM);
+                localStorage.setItem('typeTestHighScores', JSON.stringify(highScores.slice(0, 10)));
+            }
+
+            // Toggle theme
+            function toggleTheme() {
+                document.body.classList.toggle('light-theme');
+                const icon = themeToggle.querySelector('i');
+
+                if (document.body.classList.contains('light-theme')) {
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            }
+
+            // Reset the typing test
+            function resetTest() {
+                clearInterval(timerInterval);
+                currentIndex = 0;
+                errors = 0;
+                started = false;
+                totalTyped = 0;
+                correctTyped = 0;
+                streakCount = 0;
+                maxStreak = 0;
+
+                result.style.display = 'none';
+                typingTitle.textContent = 'Start typing when ready...';
+                startBtn.disabled = false;
+
+                updateTimer(parseInt(timeSelect.value));
+                initializeTest();
+            }
+
+            // Update timer display
+            function updateTimer(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                const remainingSeconds = seconds % 60;
+                timer.textContent = `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+            }
+
+            // Initialize everything
+            initializeTest();
+            initializeEnhancedFeatures();
         });
-        
-        // Apply syntax highlighting
-        applySyntaxHighlighting(typingContent, languageSelect.value);
-    }
 
-    // Toggle theme
-    function toggleTheme() {
-        document.body.classList.toggle('light-theme');
-        const icon = themeToggle.querySelector('i');
-        
-        if (document.body.classList.contains('light-theme')) {
-            icon.classList.remove('fa-moon');
-            icon.classList.add('fa-sun');
-        } else {
-            icon.classList.remove('fa-sun');
-            icon.classList.add('fa-moon');
-        }
-    }
+        // Add new functions for enhanced features
+        function initializeEnhancedFeatures() {
+            // Add sound effects
+            const sounds = {
+                click: new Audio('path/to/click.mp3'),
+                error: new Audio('path/to/error.mp3'),
+                success: new Audio('path/to/success.mp3')
+            };
 
-    // Apply syntax highlighting based on language
-    function applySyntaxHighlighting(element, language) {
-        const content = element.innerHTML;
-        let highlighted = content;
-        
-        // Define patterns for different languages
-        const patterns = {
-            javascript: {
-                keywords: /\b(const|let|var|function|return|if|else|for|while|class|extends|import|export|from|this|new|true|false|null|undefined)\b/g,
-                functions: /\b([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g,
-                strings: /(["'`])(?:\\.|[^\\])*?\1/g,
-                numbers: /\b\d+\.?\d*\b/g,
-                comments: /\/\/.*|\/\*[\s\S]*?\*\//g,
-                operators: /([+\-*/%=&|^!<>?:]+)/g,
-                brackets: /[\(\)\[\]\{\}]/g
-            },
-            python: {
-                keywords: /\b(def|class|if|elif|else|for|while|import|from|as|return|in|is|not|and|or|True|False|None)\b/g,
-                functions: /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g,
-                strings: /(["']{1,3})(?:\\.|[^\\])*?\1/g,
-                numbers: /\b\d+\.?\d*\b/g,
-                comments: /#.*/g,
-                operators: /([+\-*/%=<>!&|^~:]+)/g,
-                brackets: /[\(\)\[\]\{\}]/g
-            },
-            java: {
-                keywords: /\b(public|private|protected|class|interface|extends|implements|static|final|void|abstract|new|if|else|for|while|switch|case|break|return|this|super|true|false|null)\b/g,
-                functions: /\b([a-zA-Z_$][a-zA-Z0-9_$]*)\s*\(/g,
-                strings: /(["'])(?:\\.|[^\\])*?\1/g,
-                numbers: /\b\d+\.?\d*[lLfFdD]?\b/g,
-                comments: /\/\/.*|\/\*[\s\S]*?\*\//g,
-                operators: /([+\-*/%=&|^!<>?:]+)/g,
-                brackets: /[\(\)\[\]\{\}]/g
-            },
-            csharp: {
-                keywords: /\b(using|namespace|class|public|private|protected|static|void|string|int|bool|var|if|else|for|foreach|while|switch|case|break|return|new|this|true|false|null)\b/g,
-                functions: /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g,
-                strings: /(["'])(?:\\.|[^\\])*?\1/g,
-                numbers: /\b\d+\.?\d*[fFdDmM]?\b/g,
-                comments: /\/\/.*|\/\*[\s\S]*?\*\//g,
-                operators: /([+\-*/%=&|^!<>?:]+)/g,
-                brackets: /[\(\)\[\]\{\}]/g
-            },
-            cpp: {
-                keywords: /\b(int|char|void|double|float|bool|class|struct|template|namespace|using|if|else|for|while|switch|case|break|return|new|delete|this|true|false|nullptr)\b/g,
-                functions: /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g,
-                strings: /(["'])(?:\\.|[^\\])*?\1/g,
-                numbers: /\b\d+\.?\d*[fFlL]?\b/g,
-                comments: /\/\/.*|\/\*[\s\S]*?\*\//g,
-                operators: /([+\-*/%=&|^!<>?:]+)/g,
-                brackets: /[\(\)\[\]\{\}]/g
-            },
-            html: {
-                keywords: /(&lt;[\/]?)([a-zA-Z0-9]+)/g,
-                attributes: /\s([a-zA-Z\-]+)=/g,
-                strings: /(["'])(?:\\.|[^\\])*?\1/g,
-                brackets: /(&gt;|&lt;)/g
-            },
-            css: {
-                keywords: /\b(body|div|span|a|p|h1|h2|h3|h4|h5|h6|class|id|margin|padding|font|border|background|color)\b/g,
-                properties: /([a-zA-Z\-]+)(\s*:)/g,
-                values: /(:\s*)([^;]+)/g,
-                units: /(\d+)(px|em|rem|%|vh|vw|s|ms)/g,
-                brackets: /[\{\}]/g
+            // Add caret styles
+            const caretStyles = {
+                block: 'background-color: var(--accent);',
+                underline: 'border-bottom: 2px solid var(--accent);',
+                outline: 'border: 1px solid var(--accent);'
+            };
+
+            // Add result graphs
+            function drawResultGraph(ctx, data) {
+                // Implementation for drawing WPM/accuracy graphs
             }
-        };
-        
-        // Apply specific language highlighting if available
-        if (patterns[language]) {
-            const pattern = patterns[language];
-            
-            // Apply highlighting for each pattern type
-            for (const type in pattern) {
-                const regex = pattern[type];
-                let match;
-                let lastIndex = 0;
-                let result = '';
-                
-                while ((match = regex.exec(content)) !== null) {
-                    const start = match.index;
-                    const end = regex.lastIndex;
-                    
-                    // Add content before match
-                    result += content.substring(lastIndex, start);
-                    
-                    // Add highlighted match
-                    const matchedText = content.substring(start, end);
-                    result += `<span class="${type}">${matchedText}</span>`;
-                    
-                    lastIndex = end;
-                }
-                
-                if (lastIndex < content.length) {
-                    result += content.substring(lastIndex);
-                }
-                
-                if (result.length > 0) {
-                    highlighted = result;
-                }
+
+            // Add replay functionality
+            function replayTest(testData) {
+                // Implementation for replaying a previous test
             }
         }
-        
-        element.innerHTML = highlighted;
-    }
 
-    // Initialize code snippets
-    function initializeCodeSnippets() {
-        codeSnippets = {
-            javascript: {
-                easy: [
-                    `function greet(name) {\n  return "Hello, " + name + "!";\n}`,
-                    `const sum = (a, b) => {\n  return a + b;\n}`,
-                    `let counter = 0;\nfunction increment() {\n  counter++;\n  return counter;\n}`
-                ],
-                medium: [
-                    `function fibonacci(n) {\n  if (n <= 1) return n;\n  return fibonacci(n - 1) + fibonacci(n - 2);\n}`,
-                    `const filterEven = (numbers) => {\n  return numbers.filter(num => num % 2 === 0);\n}`,
-                    `function createCounter() {\n  let count = 0;\n  return {\n    increment() { count++; },\n    decrement() { count--; },\n    getCount() { return count; }\n  };\n}`
-                ],
-                hard: [
-                    `async function fetchData(url) {\n  try {\n    const response = await fetch(url);\n    if (!response.ok) {\n      throw new Error('Network response was not ok');\n    }\n    return await response.json();\n  } catch (error) {\n    console.error('Fetch error:', error);\n    return null;\n  }\n}`,
-                    `class BinarySearchTree {\n  constructor() {\n    this.root = null;\n  }\n  
-  insert(value) {\n    const newNode = { value, left: null, right: null };\n    if (!this.root) {\n      this.root = newNode;\n      return;\n    }\n    
-    const insertNode = (node, newNode) => {\n      if (newNode.value < node.value) {\n        if (node.left === null) {\n          node.left = newNode;\n        } else {\n          insertNode(node.left, newNode);\n        }\n      } else {\n        if (node.right === null) {\n          node.right = newNode;\n        } else {\n          insertNode(node.right, newNode);\n        }\n      }\n    };\n    
-    insertNode(this.root, newNode);\n  }\n}`
-                ]
-            },
-            python: {
-                easy: [
-                    `def greet(name):\n    return f"Hello, {name}!"`,
-                    `def sum_numbers(a, b):\n    return a + b`,
-                    `counter = 0\n\ndef increment():\n    global counter\n    counter += 1\n    return counter`
-                ],
-                medium: [
-                    `def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n - 1) + fibonacci(n - 2)`,
-                    `def filter_even(numbers):\n    return [num for num in numbers if num % 2 == 0]`,
-                    `class Counter:\n    def __init__(self):\n        self.count = 0\n        \n    def increment(self):\n        self.count += 1\n        \n    def decrement(self):\n        self.count -= 1\n        \n    def get_count(self):\n        return self.count`
-                ],
-                hard: [
-                    `import asyncio\nimport aiohttp\n\nasync def fetch_data(url):\n    try:\n        async with aiohttp.ClientSession() as session:\n            async with session.get(url) as response:\n                if response.status != 200:\n                    raise Exception("API response error")\n                return await response.json()\n    except Exception as e:\n        print(f"Error fetching data: {e}")\n        return None`,
-                    `class BinarySearchTree:\n    def __init__(self):\n        self.root = None\n        \n    class Node:\n        def __init__(self, value):\n            self.value = value\n            self.left = None\n            self.right = None\n    \n    def insert(self, value):\n        new_node = self.Node(value)\n        \n        if not self.root:\n            self.root = new_node\n            return\n            \n        def insert_node(node, new_node):\n            if new_node.value < node.value:\n                if not node.left:\n                    node.left = new_node\n                else:\n                    insert_node(node.left, new_node)\n            else:\n                if not node.right:\n                    node.right = new_node\n                else:\n                    insert_node(node.right, new_node)\n                    \n        insert_node(self.root, new_node)`
-                ]
-            },
-            java: {
-                easy: [
-                    `public String greet(String name) {\n    return "Hello, " + name + "!";\n}`,
-                    `public int sum(int a, int b) {\n    return a + b;\n}`,
-                    `private int counter = 0;\n\npublic int increment() {\n    counter++;\n    return counter;\n}`
-                ],
-                medium: [
-                    `public int fibonacci(int n) {\n    if (n <= 1) return n;\n    return fibonacci(n - 1) + fibonacci(n - 2);\n}`,
-                    `public List<Integer> filterEven(List<Integer> numbers) {\n    return numbers.stream()\n        .filter(num -> num % 2 == 0)\n        .collect(Collectors.toList());\n}`,
-                    `public class Counter {\n    private int count = 0;\n    \n    public void increment() {\n        count++;\n    }\n    \n    public void decrement() {\n        count--;\n    }\n    \n    public int getCount() {\n        return count;\n    }\n}`
-                ],
-                hard: [
-                    `public CompletableFuture<JsonNode> fetchData(String url) {\n    HttpClient client = HttpClient.newHttpClient();\n    HttpRequest request = HttpRequest.newBuilder()\n        .uri(URI.create(url))\n        .header("Accept", "application/json")\n        .build();\n        \n    return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())\n        .thenApply(HttpResponse::body)\n        .thenApply(body -> {\n            try {\n                ObjectMapper mapper = new ObjectMapper();\n                return mapper.readTree(body);\n            } catch (Exception e) {\n                System.err.println("Error parsing JSON: " + e.getMessage());\n                return null;\n            }\n        });\n}`,
-                    `public class BinarySearchTree {\n    private Node root;\n    \n    private class Node {\n        int value;\n        Node left, right;\n        \n        Node(int value) {\n            this.value = value;\n            left = right = null;\n        }\n    }\n    \n    public void insert(int value) {\n        root = insertRec(root, value);\n    }\n    \n    private Node insertRec(Node root, int value) {\n        if (root == null) {\n            root = new Node(value);\n            return root;\n        }\n        \n        if (value < root.value) {\n            root.left = insertRec(root.left, value);\n        } else if (value > root.value) {\n            root.right = insertRec(root.right, value);\n        }\n        \n        return root;\n    }\n}`
-                ]
-            },
-            csharp: {
-                easy: [
-                    `public string Greet(string name) {\n    return $"Hello, {name}!";\n}`,
-                    `public int Sum(int a, int b) {\n    return a + b;\n}`,
-                    `private int counter = 0;\n\npublic int Increment() {\n    counter++;\n    return counter;\n}`
-                ],
-                medium: [
-                    `public int Fibonacci(int n) {\n    if (n <= 1) return n;\n    return Fibonacci(n - 1) + Fibonacci(n - 2);\n}`,
-                    `public List<int> FilterEven(List<int> numbers) {\n    return numbers.Where(num => num % 2 == 0).ToList();\n}`,
-                    `public class Counter {\n    private int count = 0;\n    \n    public void Increment() {\n        count++;\n    }\n    \n    public void Decrement() {\n        count--;\n    }\n    \n    public int GetCount() {\n        return count;\n    }\n}`
-                ],
-                hard: [
-                    `public async Task<JsonDocument> FetchData(string url) {\n    try {\n        using (HttpClient client = new HttpClient()) {\n            HttpResponseMessage response = await client.GetAsync(url);\n            response.EnsureSuccessStatusCode();\n            string responseBody = await response.Content.ReadAsStringAsync();\n            return JsonDocument.Parse(responseBody);\n        }\n    } catch (Exception ex) {\n        Console.WriteLine($"Error fetching data: {ex.Message}");\n        return null;\n    }\n}`,
-                    `public class BinarySearchTree {\n    private class Node {\n        public int Value { get; }\n        public Node Left { get; set; }\n        public Node Right { get; set; }\n        \n        public Node(int value) {\n            Value = value;\n            Left = Right = null;\n        }\n    }\n    \n    private Node root;\n    \n    public void Insert(int value) {\n        if (root == null) {\n            root = new Node(value);\n            return;\n        }\n        \n        InsertRecursive(root, value);\n    }\n    \n    private void InsertRecursive(Node node, int value) {\n        if (value < node.Value) {\n            if (node.Left == null) {\n                node.Left = new Node(value);\n            } else {\n                InsertRecursive(node.Left, value);\n            }\n        } else {\n            if (node.Right == null) {\n                node.Right = new Node(value);\n            } else {\n                InsertRecursive(node.Right, value);\n            }\n        }\n    }\n}`
-                ]
-            },
-            cpp: {
-                easy: [
-                    `string greet(string name) {\n    return "Hello, " + name + "!";\n}`,
-                    `int sum(int a, int b) {\n    return a + b;\n}`,
-                    `int counter = 0;\n\nint increment() {\n    counter++;\n    return counter;\n}`
-                ],
-                medium: [
-                    `int fibonacci(int n) {\n    if (n <= 1) return n;\n    return fibonacci(n - 1) + fibonacci(n - 2);\n}`,
-                    `vector<int> filterEven(const vector<int>& numbers) {\n    vector<int> result;\n    for (int num : numbers) {\n        if (num % 2 == 0) {\n            result.push_back(num);\n        }\n    }\n    return result;\n}`,
-                    `class Counter {\nprivate:\n    int count = 0;\n    \npublic:\n    void increment() {\n        count++;\n    }\n    \n    void decrement() {\n        count--;\n    }\n    \n    int getCount() const {\n        return count;\n    }\n};`
-                ],
-                hard: [
-                    `#include <iostream>\n#include <curl/curl.h>\n#include <json/json.h>\n\nstatic size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* output) {\n    size_t totalSize = size * nmemb;\n    output->append((char*)contents, totalSize);\n    return totalSize;\n}\n\nJson::Value fetchData(const std::string& url) {\n    CURL* curl = curl_easy_init();\n    std::string response;\n    Json::Value json;\n    \n    if (curl) {\n        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());\n        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);\n        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);\n        \n        CURLcode res = curl_easy_perform(curl);\n        \n        if (res != CURLE_OK) {\n            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;\n        } else {\n            Json::Reader reader;\n            reader.parse(response, json);\n        }\n        \n        curl_easy_cleanup(curl);\n    }\n    \n    return json;\n}`,
-                    `class BinarySearchTree {\nprivate:\n    struct Node {\n        int value;\n        Node* left;\n        Node* right;\n        \n        Node(int val) : value(val), left(nullptr), right(nullptr) {}\n    };\n    \n    Node* root;\n    \n    Node* insertRecursive(Node* node, int value) {\n        if (node == nullptr) {\n            return new Node(value);\n        }\n        \n        if (value < node->value) {\n            node->left = insertRecursive(node->left, value);\n        } else if (value > node->value) {\n            node->right = insertRecursive(node->right, value);\n        }\n        \n        return node;\n    }\n    \npublic:\n    BinarySearchTree() : root(nullptr) {}\n    \n    void insert(int value) {\n        root = insertRecursive(root, value);\n    }\n};`
-                ]
-            },
-            html: {
-                easy: [
-                    `<!DOCTYPE html>\n<html>\n<head>\n    <title>Simple Page</title>\n</head>\n<body>\n    <h1>Hello World</h1>\n    <p>This is a simple HTML page.</p>\n</body>\n</html>`,
-                    `<div class="container">\n    <h2>Welcome</h2>\n    <p>This is a simple container with some text.</p>\n</div>`,
-                    `<ul>\n    <li>Item 1</li>\n    <li>Item 2</li>\n    <li>Item 3</li>\n</ul>`
-                ],
-                medium: [
-                    `<!DOCTYPE html>\n<html>\n<head>\n    <title>Contact Form</title>\n</head>\n<body>\n    <form>\n        <label for="name">Name:</label>\n        <input type="text" id="name" name="name" required>\n        \n        <label for="email">Email:</label>\n        <input type="email" id="email" name="email" required>\n        \n        <button type="submit">Submit</button>\n    </form>\n</body>\n</html>`,
-                    `<nav>\n    <ul>\n        <li><a href="#home">Home</a></li>\n        <li><a href="#about">About</a></li>\n        <li><a href="#services">Services</a></li>\n        <li><a href="#contact">Contact</a></li>\n    </ul>\n</nav>`,
-                    `<table>\n    <thead>\n        <tr>\n            <th>ID</th>\n            <th>Name</th>\n            <th>Email</th>\n        </tr>\n    </thead>\n    <tbody>\n        <tr>\n            <td>1</td>\n            <td>John Doe</td>\n            <td>john@example.com</td>\n        </tr>\n        <tr>\n            <td>2</td>\n            <td>Jane Smith</td>\n            <td>jane@example.com</td>\n        </tr>\n    </tbody>\n</table>`
-                ],
-                hard: [
-                    `<!DOCTYPE html>\n<html>\n<head>\n    <title>Responsive Layout</title>\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <style>\n        * { box-sizing: border-box; }\n        .row::after { content: ""; display: table; clear: both; }\n        .col { float: left; padding: 15px; }\n        .header, .footer { background-color: #f1f1f1; padding: 15px; text-align: center; }\n        .menu { width: 25%; }\n        .content { width: 75%; }\n        @media screen and (max-width: 600px) {\n            .col { width: 100%; }\n        }\n    </style>\n</head>\n<body>\n    <div class="header">\n        <h1>Header</h1>\n    </div>\n    <div class="row">\n        <div class="col menu">\n            <ul>\n                <li>Item 1</li>\n                <li>Item 2</li>\n                <li>Item 3</li>\n            </ul>\n        </div>\n        <div class="col content">\n            <h2>Main Content</h2>\n            <p>Responsive layout example with a sidebar and main content area.</p>\n        </div>\n    </div>\n    <div class="footer">\n        <p>Footer</p>\n    </div>\n</body>\n</html>`,
-                    `<!DOCTYPE html>\n<html>\n<head>\n    <title>Advanced Form</title>\n    <style>\n        .form-group { margin-bottom: 15px; }\n        label { display: block; margin-bottom: 5px; }\n        .invalid { border: 1px solid red; }\n    </style>\n</head>\n<body>\n    <form id="myForm">\n        <div class="form-group">\n            <label for="name">Full Name:</label>\n            <input type="text" id="name" name="name" required minlength="2">\n        </div>\n        \n        <div class="form-group">\n            <label for="email">Email Address:</label>\n            <input type="email" id="email" name="email" required>\n        </div>\n        \n        <div class="form-group">\n            <label for="password">Password:</label>\n            <input type="password" id="password" name="password" required minlength="8">\n        </div>\n        \n        <div class="form-group">\n            <label for="confirmPassword">Confirm Password:</label>\n            <input type="password" id="confirmPassword" name="confirmPassword" required>\n        </div>\n        \n        <div class="form-group">\n            <label>Gender:</label>\n            <input type="radio" id="male" name="gender" value="male">\n            <label for="male">Male</label>\n            <input type="radio" id="female" name="gender" value="female">\n            <label for="female">Female</label>\n            <input type="radio" id="other" name="gender" value="other">\n            <label for="other">Other</label>\n        </div>\n        \n        <div class="form-group">\n            <label for="country">Country:</label>\n            <select id="country" name="country" required>\n                <option value="">Select a country</option>\n                <option value="us">United States</option>\n                <option value="ca">Canada</option>\n                <option value="uk">United Kingdom</option>\n                <option value="au">Australia</option>\n            </select>\n        </div>\n        \n        <div class="form-group">\n            <label for="message">Message:</label>\n            <textarea id="message" name="message" rows="4" required></textarea>\n        </div>\n        \n        <div class="form-group">\n            <label>\n                <input type="checkbox" id="agree" name="agree" required>\n                I agree to the terms and conditions\n            </label>\n        </div>\n        \n        <button type="submit">Submit</button>\n    </form>\n</body>\n</html>`
-                ]
-            },
-            css: {
-                easy: [
-                    `body {\n    margin: 0;\n    padding: 0;\n    font-family: Arial, sans-serif;\n}`,
-                    `.container {\n    width: 80%;\n    margin: 0 auto;\n    padding: 20px;\n}`,
-                    `.button {\n    background-color: #4CAF50;\n    color: white;\n    padding: 10px 15px;\n    border: none;\n    cursor: pointer;\n}`
-                ],
-                medium: [
-                    `.card {\n    width: 300px;\n    padding: 20px;\n    border: 1px solid #ccc;\n    border-radius: 5px;\n    box-shadow: 0 2px 5px rgba(0,0,0,0.1);\n}\n\n.card-title {\n    font-size: 18px;\n    font-weight: bold;\n    margin-bottom: 10px;\n}\n\n.card-content {\n    color: #666;\n    line-height: 1.6;\n}`,
-                    `nav ul {\n    list-style-type: none;\n    margin: 0;\n    padding: 0;\n    background-color: #333;\n    overflow: hidden;\n}\n\nnav li {\n    float: left;\n}\n\nnav li a {\n    display: block;\n    color: white;\n    text-align: center;\n    padding: 14px 16px;\n    text-decoration: none;\n}\n\nnav li a:hover {\n    background-color: #111;\n}`,
-                    `.form-input {\n    width: 100%;\n    padding: 10px;\n    margin-bottom: 15px;\n    border: 1px solid #ddd;\n    border-radius: 4px;\n}\n\n.form-input:focus {\n    outline: none;\n    border-color: #4CAF50;\n    box-shadow: 0 0 5px rgba(76,175,80,0.5);\n}\n\n.form-label {\n    display: block;\n    margin-bottom: 5px;\n    font-weight: bold;\n}`
-                ],
-                hard: [
-                    `@media screen and (max-width: 768px) {\n    .container {\n        width: 100%;\n        padding: 10px;\n    }\n    \n    .sidebar {\n        display: none;\n    }\n    \n    .main-content {\n        width: 100%;\n    }\n    \n    .menu-toggle {\n        display: block;\n    }\n    \n    .navigation {\n        position: fixed;\n        top: 0;\n        left: -250px;\n        width: 250px;\n        height: 100%;\n        background-color: #333;\n        transition: left 0.3s ease;\n    }\n    \n    .navigation.active {\n        left: 0;\n    }\n}`,
-                    `@keyframes fadeIn {\n    from { opacity: 0; transform: translateY(20px); }\n    to { opacity: 1; transform: translateY(0); }\n}\n\n@keyframes rotate {\n    from { transform: rotate(0deg); }\n    to { transform: rotate(360deg); }\n}\n\n.fade-in {\n    animation: fadeIn 1s ease forwards;\n}\n\n.spinner {\n    width: 40px;\n    height: 40px;\n    border: 4px solid rgba(0,0,0,0.1);\n    border-radius: 50%;\n    border-top: 4px solid #3498db;\n    animation: rotate 1s linear infinite;\n}\n\n.card {\n    opacity: 0;\n    animation: fadeIn 0.5s ease forwards;\n}\n\n.card:nth-child(2) {\n    animation-delay: 0.2s;\n}\n\n.card:nth-child(3) {\n    animation-delay: 0.4s;\n}`
-                ]
+        // Add keyboard shortcut handler
+        function handleShortcuts(e) {
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                if (settings.quickRestart) resetTest();
             }
-        };
-    }
+            // Add more shortcuts
+        }
 
-    // Get a random snippet from the code snippets
-    function getRandomSnippet(language, difficulty) {
-        const snippets = codeSnippets[language][difficulty];
-        const randomIndex = Math.floor(Math.random() * snippets.length);
-        return snippets[randomIndex];
-    }
+        // Add result saving and loading
+        function saveResult(result) {
+            statistics.historicalResults.push(result);
+            updatePersonalBests(result);
+            updateAverages();
+            localStorage.setItem('typeTestStats', JSON.stringify(statistics));
+        }
 
-    // Initialize the typing test on page load
-    initializeTest();
-});
+        // Add consistency calculation
+        function calculateConsistency(wpmArray) {
+            if (wpmArray.length < 2) return 100;
+            const average = wpmArray.reduce((a, b) => a + b) / wpmArray.length;
+            const variance = wpmArray.reduce((a, b) => a + Math.pow(b - average, 2), 0) / wpmArray.length;
+            return Math.max(0, 100 - Math.sqrt(variance));
+        }
     </script>
 </body>
+
 </html>
